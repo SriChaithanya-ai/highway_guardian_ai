@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Highway Guardian AI — Real-Time Camera Testing Module</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+  <h1>🚦 Highway Guardian AI — Real-Time Camera Testing Module</h1>
+  <p class="subtitle">Test the full detection → verification → severity → alert pipeline before deploying to real highway CCTV.</p>
+</header>
+
+<div class="layout">
+
+  <!-- ---------------- Sidebar: source controls ---------------- -->
+  <aside class="sidebar">
+    <h2>Input Source</h2>
+
+    <div class="source-tabs">
+      <label><input type="radio" name="source_type" value="webcam" checked> Webcam</label>
+      <label><input type="radio" name="source_type" value="video_file"> Video File</label>
+      <label><input type="radio" name="source_type" value="ip_camera"> IP Camera (DroidCam / IP Webcam)</label>
+    </div>
+
+    <div id="field-webcam" class="source-field">
+      <label>Webcam index</label>
+      <input type="number" id="webcam_index" value="0" min="0">
+    </div>
+
+    <div id="field-video_file" class="source-field" style="display:none;">
+      <label>Video file path (on the server/host running this app)</label>
+      <input type="text" id="video_file_path" placeholder="/path/to/test_video.mp4">
+    </div>
+
+    <div id="field-ip_camera" class="source-field" style="display:none;">
+      <label>IP camera URL</label>
+      <input type="text" id="ip_camera_url" placeholder="http://192.168.1.50:8080/video">
+      <p class="hint">
+        <b>IP Webcam (Android):</b> install the app, start server, use <code>http://&lt;phone-ip&gt;:8080/video</code><br>
+        <b>DroidCam:</b> use <code>http://&lt;phone-ip&gt;:4747/video</code><br>
+        Phone and this machine must be on the same Wi-Fi network.
+      </p>
+    </div>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="simulate_dispatch">
+      Simulate emergency dispatch (dry-run; real calls only fire if Twilio is configured in .env)
+    </label>
+
+    <div class="button-row">
+      <button id="btn-apply" class="btn btn-primary">Apply / Switch Source</button>
+      <button id="btn-stop" class="btn btn-danger">Stop</button>
+    </div>
+
+    <div id="source-status" class="status-line">No source active.</div>
+
+    <h2>Live Stats</h2>
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-label">FPS</span><span id="stat-fps" class="stat-value">0.0</span></div>
+      <div class="stat"><span class="stat-label">Vehicles</span><span id="stat-vehicles" class="stat-value">0</span></div>
+      <div class="stat"><span class="stat-label">Accident Conf.</span><span id="stat-conf" class="stat-value">0%</span></div>
+      <div class="stat"><span class="stat-label">Frames Processed</span><span id="stat-frames" class="stat-value">0</span></div>
+    </div>
+  </aside>
+
+  <!-- ---------------- Main: video + history ---------------- -->
+  <main class="main">
+    <div class="video-wrapper">
+      <img id="video-feed" src="" alt="Video feed will appear here once a source is applied.">
+      <div id="no-feed-placeholder" class="no-feed-placeholder">Select a source and click "Apply / Switch Source" to begin.</div>
+    </div>
+
+    <h2>Detection History</h2>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Source</th>
+          <th>Severity</th>
+          <th>Severity Conf.</th>
+          <th>Classifier Conf.</th>
+          <th>Vehicles</th>
+          <th>Screenshot</th>
+        </tr>
+      </thead>
+      <tbody id="history-body">
+        <tr><td colspan="7" class="empty-row">No confirmed accidents logged yet in this session.</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+</div>
+
+<!-- ---------------- Alert popup overlay ---------------- -->
+<div id="alert-overlay" class="alert-overlay hidden">
+  <div class="alert-box">
+    <h2>🚨 ACCIDENT DETECTED</h2>
+    <p id="alert-details"></p>
+    <img id="alert-screenshot" src="" alt="Accident screenshot">
+    <button id="alert-dismiss" class="btn btn-primary">Dismiss</button>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

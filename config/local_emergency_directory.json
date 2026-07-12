@@ -1,0 +1,30 @@
+{
+  "_readme": "OpenStreetMap does not reliably tag phone numbers for every police station/hospital. Fill this file in with verified real contacts for the highway stretches your cameras cover. The system tries OSM first and falls back to the nearest entry here (matched by 'region' name returned from reverse-geocoding) if OSM has no phone number.",
+  "default_national_emergency_number": "112",
+  "stations": [
+    {
+      "name": "Example District Police Station",
+      "type": "police",
+      "region": "Example District",
+      "lat": 16.5062,
+      "lon": 80.6480,
+      "phone": "+91XXXXXXXXXX"
+    },
+    {
+      "name": "Example Government General Hospital",
+      "type": "hospital",
+      "region": "Example District",
+      "lat": 16.5100,
+      "lon": 80.6500,
+      "phone": "+91XXXXXXXXXX"
+    },
+    {
+      "name": "Example Ambulance Service (108)",
+      "type": "ambulance",
+      "region": "Example District",
+      "lat": 16.5080,
+      "lon": 80.6490,
+      "phone": "108"
+    }
+  ]
+}

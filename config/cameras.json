@@ -1,0 +1,13 @@
+{
+  "_readme": "Add one entry per physical CCTV camera. camera_id must be unique. rtsp_url can be '0' for a local webcam during testing.",
+  "cameras": [
+    {
+      "camera_id": "CAM_NH44_KM231",
+      "rtsp_url": "rtsp://username:password@camera-ip:554/stream1",
+      "lat": 16.5062,
+      "lon": 80.6480,
+      "highway_name": "NH44",
+      "km_marker": 231
+    }
+  ]
+}
